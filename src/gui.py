@@ -43,6 +43,13 @@ class StartLoaderGUI:
         machine_menu.add_command(label="Start Bootloader", command=self.start_bootloader)
         menubar.add_cascade(label="Machine", menu=machine_menu)
 
+        # Virtual Phone Menu
+        phone_menu = Menu(menubar, tearoff=0)
+        stock_rom_menu = Menu(phone_menu, tearoff=0)
+        stock_rom_menu.add_command(label="From Zero", command=self.load_system_image)
+        phone_menu.add_cascade(label="Install Stock ROM", menu=stock_rom_menu)
+        menubar.add_cascade(label="Virtual Phone", menu=phone_menu)
+
         self.root.config(menu=menubar)
 
     def create_status_view(self):
@@ -92,18 +99,38 @@ class StartLoaderGUI:
             return
 
         self.storage_path.set("assets/system_images/userdata.img")
-        size = self.storage_size.get()
+        size_str = self.storage_size.get().upper()
 
         try:
+            # Simple parser for G, M, K
+            multiplier = 1024 * 1024 * 1024 # Default G
+            if size_str.endswith('G'):
+                multiplier = 1024 * 1024 * 1024
+                size_val = int(size_str[:-1])
+            elif size_str.endswith('M'):
+                multiplier = 1024 * 1024
+                size_val = int(size_str[:-1])
+            elif size_str.endswith('K'):
+                multiplier = 1024
+                size_val = int(size_str[:-1])
+            else:
+                size_val = int(size_str)
+
+            total_size = size_val * multiplier
+
             # Mocking device creation/storage allocation
             if not os.path.exists("assets/system_images"):
                 os.makedirs("assets/system_images")
 
+            # For the mock, we still don't create huge files to avoid disk space issues in sandbox
+            # But we at least use the parsed value or a reasonable cap
+            mock_size = min(total_size, 1024 * 1024 * 10)
+
             with open(self.storage_path.get(), "wb") as f:
-                f.truncate(1024 * 1024 * 10) # Create a small 10MB file for mock
+                f.truncate(mock_size)
 
             self.device_ready = True
-            messagebox.showinfo("Success", f"Device storage of {size} allocated. Device created successfully.")
+            messagebox.showinfo("Success", f"Device storage of {size_str} allocated. Device created successfully.")
         except Exception as e:
             messagebox.showerror("Error", f"Failed to create device: {e}")
 
