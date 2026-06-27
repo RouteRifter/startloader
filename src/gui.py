@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox, Menu
+from tkinter import filedialog, messagebox, Menu, simpledialog
 import subprocess
 import os
 import sys
@@ -98,8 +98,13 @@ class StartLoaderGUI:
             messagebox.showwarning("Warning", "Please select a bootloader and system image first.")
             return
 
-        self.storage_path.set("assets/system_images/userdata.img")
-        size_str = self.storage_size.get().upper()
+        # Sizing the GPT - Asking for total storage
+        size_str = simpledialog.askstring("Sizing GPT", "How much total storage to give? (e.g. 16G, minimum 4G):",
+                                         initialvalue=self.storage_size.get())
+        if not size_str:
+            return
+
+        size_str = size_str.upper()
 
         try:
             # Simple parser for G, M, K
@@ -118,16 +123,22 @@ class StartLoaderGUI:
 
             total_size = size_val * multiplier
 
+            # Enforce minimum size (e.g. 4GB)
+            if total_size < 4 * 1024 * 1024 * 1024:
+                messagebox.showerror("Error", "Minimum storage size is 4G.")
+                return
+
+            self.storage_size.set(size_str)
+            self.storage_path.set("assets/system_images/userdata.img")
+
             # Mocking device creation/storage allocation
             if not os.path.exists("assets/system_images"):
                 os.makedirs("assets/system_images")
 
-            # For the mock, we still don't create huge files to avoid disk space issues in sandbox
-            # But we at least use the parsed value or a reasonable cap
-            mock_size = min(total_size, 1024 * 1024 * 10)
-
+            # Provision the storage file by seeking to the end and truncating
+            # This creates a sparse file on supported filesystems
             with open(self.storage_path.get(), "wb") as f:
-                f.truncate(mock_size)
+                f.truncate(total_size)
 
             self.device_ready = True
             messagebox.showinfo("Success", f"Device storage of {size_str} allocated. Device created successfully.")
