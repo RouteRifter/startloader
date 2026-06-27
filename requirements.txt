@@ -1,0 +1,2 @@
+# No external python dependencies required as it uses standard library (tkinter, subprocess, argparse)
+# QEMU must be installed separately on the system.

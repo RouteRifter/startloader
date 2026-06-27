@@ -1,11 +1,12 @@
 # StartLoader: Android Software Image Emulator
 
-This project provides an Android software image emulator powered by a custom bootloader image. It uses QEMU to emulate an x86_64 system and boots a custom bootloader that can then load an Android system image.
+This project provides an Android software image emulator powered by a custom bootloader image. It is designed for both Windows and Linux environments.
 
 ## Project Structure
 
 - `bootloader/`: Contains the custom bootloader source code (`boot.S`) and build artifacts.
-- `src/`: Contains the emulator launcher script (`launcher.py`).
+- `src/`: Contains the emulator launcher script (`launcher.py`) and GUI (`gui.py`).
+- `assets/`: Directory for storing bootloaders, recoveries, system images, and firmwares.
 - `include/`: Header files for the bootloader and other components.
 - `scripts/`: Helper scripts for development and testing.
 - `Makefile`: Build system for the project.
@@ -14,6 +15,7 @@ This project provides an Android software image emulator powered by a custom boo
 
 - `gcc` / `as` / `ld`: GNU Toolchain for assembling and linking the bootloader.
 - `python3`: For running the emulator launcher.
+- `tkinter`: Python's GUI toolkit.
 - `qemu-system-x86_64`: The QEMU emulator (must be installed on the host system).
 
 ## Getting Started
@@ -30,7 +32,27 @@ This will generate `bootloader/boot.bin`.
 
 ### 2. Run the Emulator
 
-To start the emulator using the default settings:
+You can run the emulator via the GUI or the command line.
+
+#### Using the GUI (Recommended)
+
+To start the graphical user interface:
+
+```bash
+python3 src/launcher.py --gui
+```
+
+**GUI Workflow:**
+1. **Environment** -> **Select Bootloader**: Choose your bootloader binary (e.g., Moto or Google bootloader).
+2. **Environment** -> **Select Recovery Image**: Choose a compatible recovery image.
+3. **System** -> **Load Image**: Select the Android system image.
+4. **Machine** -> **Compile and Create Device**: Allocate storage (total storage size can be specified) and prepare the virtual device.
+5. **Machine** -> **Select Firmware**: Load additional core device files (Moto firmwares contain core device files).
+6. **Machine** -> **Start Bootloader**: Launch the emulator.
+
+#### Using the Command Line
+
+To start the emulator with default settings:
 
 ```bash
 make run
@@ -49,10 +71,6 @@ To see the QEMU command that will be executed without actually starting the emul
 ```bash
 python3 src/launcher.py --dry-run
 ```
-
-## Custom Bootloader
-
-The bootloader is written in x86 assembly (`bootloader/boot.S`). It is a minimal real-mode bootloader that prints a message to the screen. In a real-world scenario, this bootloader would be responsible for initializing hardware, setting up the CPU state, and loading the Android kernel from the system image.
 
 ## License
 
