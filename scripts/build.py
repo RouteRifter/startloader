@@ -11,16 +11,22 @@ def build_bootloader():
     try:
         print(f"Executing: {' '.join(as_cmd)}")
         subprocess.run(as_cmd, check=True)
-
-        print(f"Executing: {' '.join(ld_cmd)}")
-        subprocess.run(ld_cmd, check=True)
-
-        print("Success: bootloader/boot.bin created.")
-    except FileNotFoundError as e:
-        print(f"Error: Required tool not found: {e.filename}")
+    except FileNotFoundError:
+        print("Error: 'as' (GNU Assembler) not found. Please install the GNU Binutils or GCC toolchain.")
         sys.exit(1)
     except subprocess.CalledProcessError as e:
-        print(f"Error: Build failed with exit code {e.returncode}")
+        print(f"Error: Assembly failed with exit code {e.returncode}")
+        sys.exit(e.returncode)
+
+    try:
+        print(f"Executing: {' '.join(ld_cmd)}")
+        subprocess.run(ld_cmd, check=True)
+        print("Success: bootloader/boot.bin created.")
+    except FileNotFoundError:
+        print("Error: 'ld' (GNU Linker) not found. Please install the GNU Binutils or GCC toolchain.")
+        sys.exit(1)
+    except subprocess.CalledProcessError as e:
+        print(f"Error: Linking failed with exit code {e.returncode}")
         sys.exit(e.returncode)
 
 if __name__ == "__main__":
