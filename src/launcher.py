@@ -8,7 +8,7 @@ def run_gui():
         import gui
         import tkinter as tk
         root = tk.Tk()
-        app = StartLoaderGUI(root)
+        app = gui.StartLoaderGUI(root)
         root.mainloop()
     except Exception as e:
         print(f"Failed to start GUI: {e}")

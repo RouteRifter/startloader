@@ -50,6 +50,10 @@ python3 src/launcher.py --gui
 5. **Machine** -> **Select Firmware**: Load additional core device files (Moto firmwares contain core device files).
 6. **Machine** -> **Start Bootloader**: Launch the emulator.
 
+**Deploying a Stock ROM (Alternative Path):**
+1. **Virtual Phone** -> **Install Stock ROM** -> **From Zero**: Select the stock ROM or GSI system image.
+2. Follow the rest of the **Machine** menu steps to start the emulator.
+
 #### Using the Command Line
 
 To start the emulator with default settings:
@@ -75,6 +79,3 @@ python3 src/launcher.py --dry-run
 ## License
 
 This project is licensed under the MIT License.
-# Android Software image emulator powered by a custom bootloader image (bootloader.img by Google or Motorola)
-
-yoylecaik (this is for windows)
