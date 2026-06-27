@@ -28,6 +28,12 @@ To assemble and link the custom bootloader:
 make build
 ```
 
+Or if you don't have `make` installed:
+
+```bash
+python3 scripts/build.py
+```
+
 This will generate `bootloader/boot.bin`.
 
 ### 2. Run the Emulator
