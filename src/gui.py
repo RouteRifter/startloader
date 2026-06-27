@@ -50,6 +50,11 @@ class StartLoaderGUI:
         phone_menu.add_cascade(label="Install Stock ROM", menu=stock_rom_menu)
         menubar.add_cascade(label="Virtual Phone", menu=phone_menu)
 
+        # Extras Menu
+        extras_menu = Menu(menubar, tearoff=0)
+        extras_menu.add_command(label="Custom ROM Creator", command=self.launch_rom_creator)
+        menubar.add_cascade(label="Extras", menu=extras_menu)
+
         self.root.config(menu=menubar)
 
     def create_status_view(self):
@@ -144,6 +149,13 @@ class StartLoaderGUI:
             messagebox.showinfo("Success", f"Device storage of {size_str} allocated. Device created successfully.")
         except Exception as e:
             messagebox.showerror("Error", f"Failed to create device: {e}")
+
+    def launch_rom_creator(self):
+        try:
+            from extras import rom_creator
+            rom_creator.launch()
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to launch ROM Creator: {e}")
 
     def start_bootloader(self):
         if not self.device_ready:

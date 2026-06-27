@@ -5,7 +5,7 @@ This project provides an Android software image emulator powered by a custom boo
 ## Project Structure
 
 - `bootloader/`: Contains the custom bootloader source code (`boot.S`) and build artifacts.
-- `src/`: Contains the emulator launcher script (`launcher.py`) and GUI (`gui.py`).
+- `src/`: Contains the emulator launcher script (`launcher.py`), GUI (`gui.py`), and extras.
 - `assets/`: Directory for storing bootloaders, recoveries, system images, and firmwares.
 - `include/`: Header files for the bootloader and other components.
 - `scripts/`: Helper scripts for development, testing, and updates (`update.py`, `build.py`).
@@ -13,7 +13,7 @@ This project provides an Android software image emulator powered by a custom boo
 
 ## Requirements
 
-- `gcc` / `as` / `ld`: GNU Toolchain for assembling and linking the bootloader.
+- `gcc` / `as` / `ld`: GNU Toolchain or MinGW (for Windows) for assembling and linking the bootloader.
 - `python3`: For running the emulator launcher.
 - `tkinter`: Python's GUI toolkit.
 - `qemu-system-x86_64`: The QEMU emulator (must be installed on the host system).
@@ -28,11 +28,19 @@ To assemble and link the custom bootloader:
 make build
 ```
 
+**Cross-compiling (e.g. using MinGW):**
+
+```bash
+make build CROSS_COMPILE=x86_64-w64-mingw32-
+```
+
 Or if you don't have `make` installed:
 
 ```bash
 python3 scripts/build.py
 ```
+
+The `build.py` script will automatically attempt to find `as`/`ld` or their MinGW equivalents.
 
 This will generate `bootloader/boot.bin`.
 
@@ -59,6 +67,9 @@ python3 src/launcher.py --gui
 **Deploying a Stock ROM (Alternative Path):**
 1. **Virtual Phone** -> **Install Stock ROM** -> **From Zero**: Select the stock ROM or GSI system image.
 2. Follow the rest of the **Machine** menu steps to start the emulator.
+
+**Extras:**
+1. **Extras** -> **Custom ROM Creator**: Tool for creating personalized Android system images.
 
 #### Using the Command Line
 

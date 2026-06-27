@@ -1,6 +1,7 @@
-AS = as
-LD = ld
-OBJCOPY = objcopy
+CROSS_COMPILE ?=
+AS = $(CROSS_COMPILE)as
+LD = $(CROSS_COMPILE)ld
+OBJCOPY = $(CROSS_COMPILE)objcopy
 PYTHON = python3
 
 BOOTLOADER_SRC = bootloader/boot.S
