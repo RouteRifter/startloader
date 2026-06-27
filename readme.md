@@ -31,7 +31,7 @@ make build
 Or if you don't have `make` installed:
 
 ```bash
-python3 scripts/build.py
+python scripts/build.py
 ```
 
 This will generate `bootloader/boot.bin`.
@@ -45,7 +45,7 @@ You can run the emulator via the GUI or the command line.
 To start the graphical user interface:
 
 ```bash
-python3 src/launcher.py --gui
+python src/launcher.py --gui
 ```
 
 **GUI Workflow:**
