@@ -75,3 +75,6 @@ python3 src/launcher.py --dry-run
 ## License
 
 This project is licensed under the MIT License.
+# Android Software image emulator powered by a custom bootloader image (bootloader.img by Google or Motorola)
+
+yoylecaik (this is for windows)
