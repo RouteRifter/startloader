@@ -8,7 +8,7 @@ This project provides an Android software image emulator powered by a custom boo
 - `src/`: Contains the emulator launcher script (`launcher.py`) and GUI (`gui.py`).
 - `assets/`: Directory for storing bootloaders, recoveries, system images, and firmwares.
 - `include/`: Header files for the bootloader and other components.
-- `scripts/`: Helper scripts for development and testing.
+- `scripts/`: Helper scripts for development, testing, and updates (`update.py`, `build.py`).
 - `Makefile`: Build system for the project.
 
 ## Requirements
@@ -80,6 +80,14 @@ To see the QEMU command that will be executed without actually starting the emul
 
 ```bash
 python3 src/launcher.py --dry-run
+```
+
+## Updating
+
+To update StartLoader to the latest version:
+
+```bash
+python3 scripts/update.py
 ```
 
 ## License
