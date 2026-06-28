@@ -37,7 +37,11 @@ make build CROSS_COMPILE=x86_64-w64-mingw32-
 Or if you don't have `make` installed:
 
 ```bash
+# On Linux
 python3 scripts/build.py
+
+# On Windows
+build.bat
 ```
 
 The `build.py` script will automatically attempt to find `as`/`ld` or their MinGW equivalents.

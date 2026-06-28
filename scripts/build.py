@@ -20,7 +20,13 @@ def build_bootloader():
             continue
 
     if not selected_tools:
-        print("Error: No suitable assembler ('as' or MinGW) found. Please install the GNU Binutils toolchain.")
+        print("Error: No suitable assembler ('as' or MinGW) found.")
+        if platform.system() == "Windows":
+            print("\nSuggested action for Windows:")
+            print("1. Install MinGW-w64 (e.g., from https://github.com/niXman/mingw-builds-binaries/releases)")
+            print("2. Add the 'bin' folder of MinGW to your system PATH.")
+        else:
+            print("Please install the GNU Binutils or GCC toolchain.")
         sys.exit(1)
 
     as_cmd = [selected_tools["as"], "-o", "bootloader/boot.o", "bootloader/boot.S"]
