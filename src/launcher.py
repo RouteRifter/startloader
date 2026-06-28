@@ -2,6 +2,16 @@ import argparse
 import subprocess
 import sys
 import os
+import shutil
+
+def check_dependencies():
+    if shutil.which("qemu-system-x86_64") is None:
+        print("QEMU not found. Attempting auto-installation...")
+        try:
+            subprocess.run([sys.executable, "scripts/setup.py"], check=True)
+        except subprocess.CalledProcessError:
+            print("Auto-installation failed. Please install QEMU manually.")
+            # We don't exit here to allow --dry-run or GUI to still work for config
 
 def run_gui():
     try:
@@ -15,6 +25,7 @@ def run_gui():
         sys.exit(1)
 
 def main():
+    check_dependencies()
     parser = argparse.ArgumentParser(description="StartLoader Android Emulator Launcher")
     parser.add_argument("--gui", action="store_true", help="Start the graphical user interface")
     parser.add_argument("--image", help="Path to the Android system image")

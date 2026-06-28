@@ -60,6 +60,11 @@ class StartLoaderGUI:
         boot_menu.add_command(label="boot by blxxx.tar.md5", command=self.boot_by_tar_md5)
         menubar.add_cascade(label="Boot", menu=boot_menu)
 
+        # Setup Menu
+        setup_menu = Menu(menubar, tearoff=0)
+        setup_menu.add_command(label="Install Dependencies", command=self.install_deps)
+        menubar.add_cascade(label="Setup", menu=setup_menu)
+
         self.root.config(menu=menubar)
 
     def create_status_view(self):
@@ -154,6 +159,14 @@ class StartLoaderGUI:
             messagebox.showinfo("Success", f"Device storage of {size_str} allocated. Device created successfully.")
         except Exception as e:
             messagebox.showerror("Error", f"Failed to create device: {e}")
+
+    def install_deps(self):
+        if messagebox.askyesno("Setup", "Do you want to check and install missing dependencies (QEMU, etc.)?"):
+            try:
+                subprocess.run([sys.executable, "scripts/setup.py"], check=True)
+                messagebox.showinfo("Success", "Dependencies check/install completed.")
+            except Exception as e:
+                messagebox.showerror("Error", f"Failed to install dependencies: {e}")
 
     def boot_by_tar_md5(self):
         path = filedialog.askopenfilename(title="Select Boot Tarball", filetypes=[("Odin/Samsung binaries", "*.tar.md5"), ("All files", "*.*")])

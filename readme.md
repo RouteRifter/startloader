@@ -8,7 +8,7 @@ This project provides an Android software image emulator powered by a custom boo
 - `src/`: Contains the emulator launcher script (`launcher.py`), GUI (`gui.py`), and extras.
 - `assets/`: Directory for storing bootloaders, recoveries, system images, and firmwares.
 - `include/`: Header files for the bootloader and other components.
-- `scripts/`: Helper scripts for development, testing, and updates (`update.py`, `build.py`).
+- `scripts/`: Helper scripts for setup, development, and updates (`setup.py`, `update.py`, `build.py`).
 - `Makefile`: Build system for the project.
 
 ## Requirements
@@ -95,6 +95,16 @@ To see the QEMU command that will be executed without actually starting the emul
 ```bash
 python3 src/launcher.py --dry-run
 ```
+
+## Dependency Management
+
+StartLoader can automatically check for and install missing dependencies (like QEMU) on Linux systems. This is triggered automatically when you run the launcher, or can be manually invoked:
+
+```bash
+python3 scripts/setup.py
+```
+
+In the GUI, you can also use **Setup** -> **Install Dependencies**.
 
 ## Updating
 
