@@ -1,0 +1,3 @@
+bootloader/*.o
+bootloader/*.bin
+fake_android.img
